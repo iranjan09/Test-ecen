@@ -7,7 +7,7 @@ void handle_client(int client_sock) {
 
     while (1) {
         memset(buffer, 0, BUFFER_SIZE);
-        n = read(client_sock, buffer, sizeof(buffer));
+        n = receive_data(client_sock, buffer, BUFFER_SIZE-1);
         if (n <= 0) {
             if (n == 0) {
                 printf("Client disconnected.\n");
@@ -19,7 +19,7 @@ void handle_client(int client_sock) {
         }
 
         printf("Received: %s", buffer);
-        write(client_sock, buffer, n); // echo back to the client
+        send_data(client_sock, buffer); // echo back to the client
     }
 }
 
