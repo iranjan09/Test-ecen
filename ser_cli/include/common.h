@@ -5,6 +5,8 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #define BUFFER_SIZE 1024
 
