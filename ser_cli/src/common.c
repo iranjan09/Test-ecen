@@ -52,8 +52,6 @@ int writen(int fd, char *buf, int bufSize) {
   int nleft = bufSize; 
   int nwritten;
 
-//  const char *ptr = (const char*)buf;
-
   while (nleft > 0) {
     if ((nwritten = write(fd, buf, nleft)) < 0) {
       if (nwritten < 0 && errno == EINTR) {
@@ -67,6 +65,7 @@ int writen(int fd, char *buf, int bufSize) {
     nleft -= nwritten;
     buf += nwritten;
   }
+
   return bufSize;
 }
 
@@ -104,3 +103,4 @@ int receive_data(int sockfd, char *buffer, int buf_size) {
 	return ret;
 
 }
+
