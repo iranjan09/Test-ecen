@@ -1,6 +1,5 @@
 #include "common.h"
 
-#define BUFFER_SIZE 1024
 #define CHAR_PER_READ 1
 
 static int read_cnt;
@@ -48,18 +47,12 @@ ssize_t readLine(int fd, void *vptr, size_t maxlen) {
     return (n);
 }
 
-/*ssize_t readlinebuf(void **vptrptr) {
-    if (read_cnt)
-        *vptrptr = read_ptr;
-    return (read_cnt);
-}*/
-
 int writen(int fd, char *buf, int bufSize) {
   
   int nleft = bufSize; 
   int nwritten;
 
-  const char *ptr = (const char*)buf;
+//  const char *ptr = (const char*)buf;
 
   while (nleft > 0) {
     if ((nwritten = write(fd, buf, nleft)) < 0) {
@@ -74,7 +67,6 @@ int writen(int fd, char *buf, int bufSize) {
     nleft -= nwritten;
     buf += nwritten;
   }
-
   return bufSize;
 }
 
