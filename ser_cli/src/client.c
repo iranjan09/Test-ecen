@@ -31,27 +31,27 @@ int main(int argc, char *argv[]) {
 	strcpy(ip_addr, argv[1]);
 	port = atoi(argv[2]);
   
-	printf ("Client: Server Port number is %s \n", argv[2]);
-	printf ("Client: Server IPv4 Address is %s \n", argv[1]);
+	printf ("CLIENT: Server Port number is %s \n", argv[2]);
+	printf ("CLIENT: Server IPv4 Address is %s \n", argv[1]);
 	
     // Unable to create socket, exit
 	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-		perror("socket error");
+		perror("ERROR: Socket creation failed");
 		exit(1);
 	}
 	
 	if(server_sock_init(&serv_sockaddr, ip_addr, port) < 0) {
-		perror("server socket init failed");
+		perror("ERROR: Server socket init failed");
 		exit(1);
 	}
 	
 	// Connect to server
 	if(connect(sockfd, (struct sockaddr*)&serv_sockaddr, sizeof(serv_sockaddr)) < 0) {
-		perror("Connect Error");
+		perror("ERROR: Connection to server failed");
 		exit(1);
 	}
 
-	printf("Client connected to server\n");
+	printf("CLIENT: Connected to Server\n");
 
 	// Client communication loop
 	while(1) {
@@ -60,35 +60,37 @@ int main(int argc, char *argv[]) {
 		memset (recv_buf, 0, BUFFER_SIZE + 1);
 		// Read input from user
 		fgets(send_buf, BUFFER_SIZE, stdin);
-	
+		
 		if (strlen (send_buf) == 0) {
-			printf("Close the connection to Server because No data/EOF\n");
+			printf("CLIENT: Close the connection to Server because No data/EOF\n");
 			close(sockfd);
-			exit(0);
+			exit(1);
 		}
-
+		
 		// Send line to server
+		printf ("CLIENT: Sending Data: %s\n", send_buf);
 		if(send_data(sockfd, send_buf) < 0) {
 			perror ("ERROR: Client failed to send data to server");
 			break;
 		}
 		
-		ret = receive_data(sockfd, recv_buf, BUFFER_SIZE-1);
+		//Receive data from receiver
+		ret = receive_data(sockfd, recv_buf, BUFFER_SIZE);
         if (ret <= 0) {
             if (ret == 0) {
-                printf("Server disconnected.\n");
+                printf("CLIENT: Server disconnected.\n");
             } else {
-                perror("Error reading from socket");
+                perror("ERROR: Reading from socket failed");
             }
             close(sockfd);
-            exit(0);
+            exit(1);
         }
 		else
 		{	
         recv_buf [ret] = '\0';
 		}
 		ret = 0;
-		printf ("CLIENT Receiving data from server: %s \n", recv_buf);
+		printf ("CLIENT: Received Data: %s\n", recv_buf);
   		
 
 	}
