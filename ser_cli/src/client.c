@@ -10,6 +10,7 @@ int server_sock_init(struct sockaddr_in *sockaddr, char *ip_addr, int port) {
 		perror("inet_pton error");
 		return -1;
 	}
+
     return 0;
 }
 
@@ -89,4 +90,11 @@ int main(int argc, char *argv[]) {
 		ret = 0;
 		printf ("CLIENT Receiving data from server: %s \n", recv_buf);
   		
+
+	}
+
+	// Close socket
+	close(sockfd);
+
+	return 0;
 }
