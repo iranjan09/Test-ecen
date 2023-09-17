@@ -1,21 +1,21 @@
 #ifndef COMMON_INCLUDED
 #define COMMON_INCLUDED
 
-/#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
+#include <stdio.h>
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <arpa/inet.h>
-#include <errno.h>
 #include <stdlib.h>
 #include <netdb.h>
-#include <netinet/in.h>
 #include <unistd.h>
+#include <string.h>
 #include <signal.h>
 #include <wait.h>
+#include <netinet/in.h>
+#include <errno.h>
 
 #define QUEUE_SIZE 50       // Max Queue Size
-#define BUFFER_SIZE 5      // Max Buffer Size
+#define BUFFER_SIZE 1024      // Max Buffer Size
 
 // Function decleration
 int server_sock_init(struct sockaddr_in *sockaddr, char *ip_addr, int port);
