@@ -1,7 +1,5 @@
 #include "common.h"
 
-#define BUFFER_SIZE 1024
-
 int server_sock_init(struct sockaddr_in *sockaddr, char *ip_addr, int port) {
 
 	memset (sockaddr, 0, sizeof(*sockaddr));
@@ -12,13 +10,12 @@ int server_sock_init(struct sockaddr_in *sockaddr, char *ip_addr, int port) {
 		perror("inet_pton error");
 		return -1;
 	}
-
     return 0;
 }
 
 int main(int argc, char *argv[]) {
 
-	int sockfd = -1, n;
+	int sockfd = -1;
 	int ret;
 	char ip_addr[16], send_buf[BUFFER_SIZE], recv_buf[BUFFER_SIZE+1];
 	struct sockaddr_in serv_sockaddr;
@@ -75,20 +72,21 @@ int main(int argc, char *argv[]) {
 			break;
 		}
 		
-	// Read echoed line back from server
-		if(receive_data(sockfd, recv_buf, BUFFER_SIZE - 1)<0) {
-			printf("Server closed connection\n");
-			break;
+		ret = receive_data(sockfd, recv_buf, BUFFER_SIZE-1);
+        if (ret <= 0) {
+            if (ret == 0) {
+                printf("Server disconnected.\n");
+            } else {
+                perror("Error reading from socket");
+            }
+            close(sockfd);
+            exit(0);
+        }
+		else
+		{	
+        recv_buf [ret] = '\0';
 		}
-
-		// Print echoed line 
-		recv_buf[n] = '\0';
-		fputs(recv_buf, stdout);
-
-	}
-
-	// Close socket
-	close(sockfd);
-
-	return 0;
+		ret = 0;
+		printf ("CLIENT Receiving data from server: %s \n", recv_buf);
+  		
 }
