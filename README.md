@@ -7,7 +7,7 @@ This project implements a simple TCP echo service consisting of a server and a c
 ## Team Members
 
 ### Aneesh Dixit
-- **UIN:** 
+- **UIN:** 530006593 
 - **Contributions:**  
   - Implemented the server logic and readline function
   - Created and executed test cases.
