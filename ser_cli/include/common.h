@@ -1,5 +1,5 @@
-#ifndef COMMON_INCLUDED
-#define COMMON_INCLUDED
+#ifndef CMN_INCLUDE
+#define CMN_INCLUDE
 
 #include <stdio.h>
 #include <sys/socket.h>
@@ -25,4 +25,4 @@ void read_write(int connect_fd);
 int send_data(int sockfd, char *data);
 int receive_data(int sockfd, char *buffer, int buf_size);
 
-#endif // COMMON_INCLUDED
+#endif // CMN_INCLUDE
