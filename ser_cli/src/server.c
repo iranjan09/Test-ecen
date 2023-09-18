@@ -1,5 +1,4 @@
 #include "common.h"
-#define BUFFER_SIZE 1024
 
 void handle_client(int client_sock) {
     char buffer[BUFFER_SIZE + 1];
