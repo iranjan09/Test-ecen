@@ -2,12 +2,12 @@
 #define BUFFER_SIZE 1024
 
 void handle_client(int client_sock) {
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE + 1];
     int n;
 
     while (1) {
-        memset(buffer, 0, BUFFER_SIZE);
-        n = receive_data(client_sock, buffer, BUFFER_SIZE-1);
+        memset(buffer, 0, BUFFER_SIZE + 1);
+        n = receive_data(client_sock, buffer, BUFFER_SIZE);
         if (n <= 0) {
             if (n == 0) {
                 printf("Client disconnected.\n");
