@@ -17,15 +17,20 @@ void handle_client(int client_sock) {
             close(client_sock);
             exit(0);
         }
+        
+        printf("Receiving Data\n");
+        printf("Received: %s\n", buffer);
+        printf("Echoing: %s\n", buffer);
 
-        printf("Received: %s", buffer);
         send_data(client_sock, buffer); // echo back to the client
     }
 }
 
 int main(int argc, char *argv[]) {
 
-    int sockfd, newsockfd;
+    /*Input: Server Port number; data_type: int*/
+
+    int sockfd, client_sock;
     socklen_t clilen;
     struct sockaddr_in serv_addr, cli_addr;
     int portno = atoi(argv[1]);
@@ -47,28 +52,32 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    // got default number from 
+    printf("Server Initialized, waiting for clients\n MAX CAPACITY: 100 clients\n");
+    
+    // Current number of max clients is 100
     listen(sockfd, 100);
     clilen = sizeof(cli_addr);
 
-    printf("got address info, listening");
+    printf("got address info, listening\n");
 
     while (1) {
-        newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &clilen);
-        if (newsockfd < 0) {
-            perror("Error on accept");
+        client_sock = accept(sockfd, (struct sockaddr *)&cli_addr, &clilen);
+        if (client_sock < 0) {
+            perror("Error on accepting connection");
             continue;
         }
 
-        printf("Connection from %s:%d\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
+        printf("Connection accepted from %s:%d\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
 
         pid_t pid = fork();
-        if (pid == 0) { // child
+        if (pid == 0) { //  pid =0 means we are in the child process
             close(sockfd); // child doesn't need the listening socket
-            handle_client(newsockfd);
+            handle_client(client_sock);
+        } else if (pid > 0){
+            printf("Child process created with PID: %d\n", pid);
         } else {
-            perror("fork error");
-        }
+            printf("Failure while forking");
+        } 
     }
 
     close(sockfd);

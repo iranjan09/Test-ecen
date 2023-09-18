@@ -36,14 +36,14 @@ ssize_t readLine(int fd, void *vptr, size_t maxlen) {
         if ((rc = my_read(fd, &c)) == 1) {
             *ptr++ = c;
             if (c == '\n')
-                break; /* newline is stored, like fgets() */
+                break; 
         } else if (rc == 0) {
             *ptr = 0;
-            return (n - 1); /* EOF, n - 1 bytes were read */
+            return (n - 1); 
         } else
-            return (-1); /* error, errno set by read() */
+            return (-1); 
     }
-    *ptr = 0; /* null terminate like fgets() */
+    *ptr = 0; 
     return (n);
 }
 
