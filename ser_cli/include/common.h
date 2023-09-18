@@ -21,7 +21,6 @@
 int server_sock_init(struct sockaddr_in *sockaddr, char *ip_addr, int port);
 ssize_t readLine(int fd, void *vptr, size_t maxlen); 
 ssize_t writen(int fd, void *buf_ptr, size_t bufSize);
-void zombie_handler_func(int signum);
 void read_write(int connect_fd);
 int send_data(int sockfd, char *data);
 int receive_data(int sockfd, char *buffer, int buf_size);
