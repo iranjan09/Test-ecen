@@ -10,17 +10,17 @@ void handle_client(int client_sock) {
         n = receive_data(client_sock, buffer, BUFFER_SIZE);
         if (n <= 0) {
             if (n == 0) {
-                printf("Client disconnected.\n");
+                printf("SERVER: Client disconnected.\n");
             } else {
-                perror("Error reading from socket");
+                perror("SERVER: Error reading from socket");
             }
             close(client_sock);
             exit(0);
         }
         
-        printf("Receiving Data\n");
-        printf("Received: %s\n", buffer);
-        printf("Echoing: %s\n", buffer);
+        printf("SERVER: Receiving Data\n");
+        printf("SERVER: Received: %s\n", buffer);
+        printf("SERVER: Echoing: %s\n", buffer);
 
         send_data(client_sock, buffer); // echo back to the client
     }
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) {
-        perror("Error opening socket");
+        perror("SERVER: Error opening socket");
         exit(1);
     }
 
@@ -48,35 +48,35 @@ int main(int argc, char *argv[]) {
 
 
     if (bind(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-        perror("Error on binding");
+        perror("SERVER: Error on binding");
         exit(1);
     }
 
-    printf("Server Initialized, waiting for clients\n MAX CAPACITY: 100 clients\n");
+    printf("SERVER: Server Initialized, waiting for clients\nSERVER MAX CAPACITY: 100 clients\n");
     
     // Current number of max clients is 100
     listen(sockfd, 100);
     clilen = sizeof(cli_addr);
 
-    printf("got address info, listening\n");
+    printf("SERVER: got address info, listening\n");
 
     while (1) {
         client_sock = accept(sockfd, (struct sockaddr *)&cli_addr, &clilen);
         if (client_sock < 0) {
-            perror("Error on accepting connection");
+            perror("SERVER: Error on accepting connection");
             continue;
         }
 
-        printf("Connection accepted from %s:%d\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
+        printf("SERVER: Connection accepted from %s:%d\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
 
         pid_t pid = fork();
         if (pid == 0) { //  pid =0 means we are in the child process
             close(sockfd); // child doesn't need the listening socket
             handle_client(client_sock);
         } else if (pid > 0){
-            printf("Child process created with PID: %d\n", pid);
+            printf("SERVER: Child process created with PID: %d\n", pid);
         } else {
-            printf("Failure while forking");
+            printf("SERVER: Failure while forking");
         } 
     }
 
