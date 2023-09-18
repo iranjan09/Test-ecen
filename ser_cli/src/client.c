@@ -74,6 +74,11 @@ int main(int argc, char *argv[]) {
 			perror ("ERROR: Client failed to send data to server");
 			break;
 		}
+
+		if (t_flag == 1) {
+		    close(sockfd);
+		    exit(0);	
+		}
 		
 		//Receive data from receiver
 		ret = receive_data(sockfd, recv_buf, BUFFER_SIZE);
