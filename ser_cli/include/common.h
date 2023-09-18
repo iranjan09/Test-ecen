@@ -15,7 +15,7 @@
 #include <errno.h>
 
 #define QUEUE_SIZE 50       // Max Queue Size
-#define BUFFER_SIZE 1024      // Max Buffer Size
+#define BUFFER_SIZE 50      // Max Buffer Size
 
 // Function decleration
 int server_sock_init(struct sockaddr_in *sockaddr, char *ip_addr, int port);
