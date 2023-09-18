@@ -16,7 +16,7 @@
 
 #define QUEUE_SIZE 50       // Max Queue Size
 #define BUFFER_SIZE 50      // Max Buffer Size
-
+#define MAX_CLIENT_SIZE 100 //Maximum clients on the server
 // Function decleration
 int server_sock_init(struct sockaddr_in *sockaddr, char *ip_addr, int port);
 ssize_t readLine(int fd, void *vptr, size_t maxlen); 
