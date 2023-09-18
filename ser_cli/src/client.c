@@ -20,7 +20,8 @@ int main(int argc, char *argv[]) {
 	int ret;
 	char ip_addr[16], send_buf[BUFFER_SIZE], recv_buf[BUFFER_SIZE+1];
 	struct sockaddr_in serv_sockaddr;
-    int port = -1;
+    	int port = -1;
+	int t_flag = 0; // Set this flag to close the socket after sending to server for test case 4
 
     // Input validation
 	if (argc != 3) {
