@@ -51,10 +51,10 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    printf("SERVER: Server Initialized, waiting for clients\nSERVER MAX CAPACITY: 100 clients\n");
+    printf("SERVER: Server Initialized, waiting for clients\nSERVER MAX CAPACITY: %d clients\n", MAX_CLIENT_SIZE);
     
     // Current number of max clients is 100
-    listen(sockfd, 100);
+    listen(sockfd, MAX_CLIENT_SIZE);
     clilen = sizeof(cli_addr);
 
     printf("SERVER: got address info, listening\n");
